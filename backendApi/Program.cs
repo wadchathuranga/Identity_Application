@@ -1,4 +1,7 @@
+using backendApi.Data;
+using backendApi.Models;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,10 +17,31 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // add db context
-builder.Services.AddDbContext<DbContext>(options =>
+builder.Services.AddDbContext<Context>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+// defining our IdentityCore Service
+builder.Services.AddIdentityCore<User>(options =>
+{
+    // password configuration
+    options.Password.RequiredLength = 6;
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+
+    // for email confirmation
+    options.SignIn.RequireConfirmedEmail = true;
+})
+    .AddRoles<IdentityRole>() // be able to add roles
+    .AddRoleManager<RoleManager<IdentityRole>>() // be able to make use of RoleManager
+    .AddEntityFrameworkStores<Context>() // providing our context
+    .AddSignInManager<SignInManager<User>>() // make use of Signin manager
+    .AddUserManager<UserManager<User>>() // make use of UserManager to create users
+    .AddDefaultTokenProviders(); // be able to create tokens for email confirmation
+
 
 var app = builder.Build();
 
