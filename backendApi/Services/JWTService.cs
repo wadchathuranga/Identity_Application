@@ -34,8 +34,8 @@ namespace backendApi.Services
                 new Claim(ClaimTypes.Surname, user.LastName)
             };
 
-            var roles = await _userManager.GetRolesAsync(user);
-            userClaims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+            //var roles = await _userManager.GetRolesAsync(user);
+            //userClaims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
             var creadentials = new SigningCredentials(_jwtKey, SecurityAlgorithms.HmacSha512Signature);
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -51,21 +51,21 @@ namespace backendApi.Services
             return tokenHandler.WriteToken(jwt);
         }
 
-        public RefreshToken CreateRefreshToken(User user)
-        {
-            var token = new byte[32];
-            using var randomNumberGenerator = RandomNumberGenerator.Create();
-            randomNumberGenerator.GetBytes(token);
+        //public RefreshToken CreateRefreshToken(User user)
+        //{
+        //    var token = new byte[32];
+        //    using var randomNumberGenerator = RandomNumberGenerator.Create();
+        //    randomNumberGenerator.GetBytes(token);
 
-            var refreshToken = new RefreshToken()
-            {
-                Token = Convert.ToBase64String(token),
-                User = user,
-                DateExpiresUtc = DateTime.UtcNow.AddDays(int.Parse(_config["JWT:RefreshTokenExpiresInDays"]))
-            };
+        //    var refreshToken = new RefreshToken()
+        //    {
+        //        Token = Convert.ToBase64String(token),
+        //        User = user,
+        //        DateExpiresUtc = DateTime.UtcNow.AddDays(int.Parse(_config["JWT:RefreshTokenExpiresInDays"]))
+        //    };
 
-            return refreshToken;
-        }
+        //    return refreshToken;
+        //}
 
     }
 }
