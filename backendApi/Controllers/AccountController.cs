@@ -10,6 +10,8 @@ using System;
 using backendApi.DTOs.Account;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backendApi.Controllers
 {
@@ -30,6 +32,18 @@ namespace backendApi.Controllers
             _signInManager = signInManager;
             _userManager = userManager;
         }
+
+
+        [Authorize]
+        [HttpGet("refresh-token")]
+        public async Task<ActionResult<UserDto>> RefereshToken()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = await _userManager.FindByIdAsync(userId);
+
+            return CreateApplicationUserDto(user);
+        }
+
 
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto model)
