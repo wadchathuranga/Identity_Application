@@ -11,7 +11,13 @@ import { SharedModule } from './shared/shared.module';
 import { ProductComponent } from './product/product.component';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, FooterComponent, HomeComponent, ProductComponent],
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    FooterComponent,
+    HomeComponent,
+    ProductComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
