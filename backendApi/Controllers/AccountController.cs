@@ -35,7 +35,7 @@ namespace backendApi.Controllers
 
 
         [Authorize]
-        [HttpGet("refresh-token")]
+        [HttpGet("refresh-user-token")]
         public async Task<ActionResult<UserDto>> RefereshToken()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
