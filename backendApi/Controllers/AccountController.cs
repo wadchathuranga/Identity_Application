@@ -113,7 +113,8 @@ namespace backendApi.Controllers
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null) return Unauthorized("This email address has not been registered yet");
 
-            if (user.EmailConfirmed == true) return BadRequest("Your email was confirmed before. Please login to your account");
+            if (user.EmailConfirmed == true) return Ok(new JsonResult(new { title = "Email already confirmed", message = "Your email was already confirmed. Please login to your account" }));
+                //return BadRequest("Your email was already confirmed. Please login to your account");
 
             try
             {
