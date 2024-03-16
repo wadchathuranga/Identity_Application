@@ -4,5 +4,5 @@
 #### Email verification
 #### Resend Email Verification Link
 #### User Login
-
+#### Forgot Password
 
