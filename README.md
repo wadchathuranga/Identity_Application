@@ -5,4 +5,5 @@
 #### Resend Email Verification Link
 #### User Login
 #### Forgot Password
+#### User Logout
 
